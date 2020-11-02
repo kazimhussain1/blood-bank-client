@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/common/page-transitions.dart';
 import 'package:flutter_app/config/config.js.dart';
+import 'package:flutter_app/screens/screens.dart';
 import 'package:flutter_app/widgets/widgets.dart';
+import 'package:http/http.dart';
 
 class SignUpScreen extends StatelessWidget {
   final TextEditingController _textEditingController = TextEditingController();
@@ -73,7 +78,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(16.0,16.0,16.0,4.0),
+                      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 4.0),
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
                         color: Palette.colorWhite,
@@ -116,14 +121,18 @@ class SignUpScreen extends StatelessWidget {
                             const SizedBox(
                               height: 36.0,
                             ),
-                            Button(
-                              width: 200.0,
-                              text: "SIGN UP",
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                _textEditingController.clear();
+                            Builder(
+                              builder: (BuildContext context) {
+                                return Button(
+                                  width: 200.0,
+                                  text: "SIGN UP",
+                                  onPressed: () {
+                                    FocusScope.of(context).unfocus();
+                                    _textEditingController.clear();
 
-                                print(emailController.text + " " + passwordController.text);
+                                    _signUp(context);
+                                  },
+                                );
                               },
                             ),
                             const SizedBox(
@@ -135,7 +144,10 @@ class SignUpScreen extends StatelessWidget {
                                 Text("Already have an account?"),
                                 TextButton(
                                   child: Text("Sign In"),
-                                  onPressed: () => {},
+                                  onPressed: () => {
+                                    Navigator.of(context)
+                                        .pushReplacement(_navigateTo(SignInScreen())),
+                                  },
                                 )
                               ],
                             ),
@@ -151,5 +163,41 @@ class SignUpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _signUp(BuildContext context) async {
+    // set up POST request arguments
+    String url = 'http://10.0.2.2/blood-bank/public/api/register';
+    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+    String json = '{"name": "${nameController.text}", "email": "${emailController.text}",'
+        ' "password": "${passwordController.text}", "confirm_password": "${passwordController.text}"}';
+
+    var map = new Map<String, dynamic>();
+
+    map["name"] = nameController.text;
+    map["email"] = emailController.text;
+    map["password"] = passwordController.text;
+    map["confirm_password"] = passwordController.text;
+    // make POST request
+    Response response = await post(url, body: map);
+    // check the status code for the result
+    int statusCode = response.statusCode;
+    // this API passes back the id of the new item added to the body
+    String body = response.body;
+
+    if (statusCode == 200) {
+      Navigator.of(context).pushReplacement(_navigateTo(SignInScreen()));
+    } else {
+      print(statusCode);
+      print(body);
+
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Oops something went wrong"),
+      ));
+    }
+  }
+
+  Route _navigateTo(Widget screen) {
+    return EnterExitRoute(exitPage: this, enterPage: screen);
   }
 }
