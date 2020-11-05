@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
 
-  final String title = "Blood Donation";
+  final String title = 'Blood Donation';
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

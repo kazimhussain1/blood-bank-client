@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/common/page-transitions.dart';
@@ -21,7 +19,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
-        title: Text("SIGN UP"),
+        title: Text('SIGN UP'),
         centerTitle: true,
       ),
       body: GestureDetector(
@@ -67,11 +65,11 @@ class SignUpScreen extends StatelessWidget {
                             SizedBox(
                               height: 32.0,
                             ),
-                            Text("CREATE NEW ACCOUNT", style: Styles.largePrimaryBoldText),
+                            Text('CREATE NEW ACCOUNT', style: Styles.largePrimaryBoldText),
                             SizedBox(
                               height: 16.0,
                             ),
-                            Text("Sign up to start your\njourney",
+                            Text('Sign up to start your\njourney',
                                 textAlign: TextAlign.center, style: Styles.mediumAccentText)
                           ],
                         ),
@@ -100,21 +98,21 @@ class SignUpScreen extends StatelessWidget {
                               height: 16,
                             ),
                             CustomTextField(
-                              label: "Full Name",
+                              label: 'Full Name',
                               controller: nameController,
                             ),
                             SizedBox(
                               height: 12.0,
                             ),
                             CustomTextField(
-                              label: "Email",
+                              label: 'Email',
                               controller: emailController,
                             ),
                             SizedBox(
                               height: 12.0,
                             ),
                             CustomTextField(
-                              label: "Password",
+                              label: 'Password',
                               isPassword: true,
                               controller: passwordController,
                             ),
@@ -125,7 +123,7 @@ class SignUpScreen extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return Button(
                                   width: 200.0,
-                                  text: "SIGN UP",
+                                  text: 'SIGN UP',
                                   onPressed: () {
                                     FocusScope.of(context).unfocus();
                                     _textEditingController.clear();
@@ -141,9 +139,9 @@ class SignUpScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Already have an account?"),
+                                Text('Already have an account?'),
                                 TextButton(
-                                  child: Text("Sign In"),
+                                  child: Text('Sign In'),
                                   onPressed: () => {
                                     Navigator.of(context)
                                         .pushReplacement(_navigateTo(SignInScreen())),
@@ -167,32 +165,29 @@ class SignUpScreen extends StatelessWidget {
 
   void _signUp(BuildContext context) async {
     // set up POST request arguments
-    String url = 'http://10.0.2.2/blood-bank/public/api/register';
-    Map<String, String> headers = {"Content-type": "multipart/form-data"};
-    String json = '{"name": "${nameController.text}", "email": "${emailController.text}",'
-        ' "password": "${passwordController.text}", "confirm_password": "${passwordController.text}"}';
+    var url = 'http://10.0.2.2/blood-bank/public/api/register';
 
-    var map = new Map<String, dynamic>();
+    var map = <String, dynamic>{};
 
-    map["name"] = nameController.text;
-    map["email"] = emailController.text;
-    map["password"] = passwordController.text;
-    map["confirm_password"] = passwordController.text;
+    map['name'] = nameController.text;
+    map['email'] = emailController.text;
+    map['password'] = passwordController.text;
+    map['confirm_password'] = passwordController.text;
     // make POST request
-    Response response = await post(url, body: map);
+    var response = await post(url, body: map);
     // check the status code for the result
-    int statusCode = response.statusCode;
+    var statusCode = response.statusCode;
     // this API passes back the id of the new item added to the body
-    String body = response.body;
+    var body = response.body;
 
     if (statusCode == 200) {
-      Navigator.of(context).pushReplacement(_navigateTo(SignInScreen()));
+      await Navigator.of(context).pushReplacement(_navigateTo(SignInScreen()));
     } else {
       print(statusCode);
       print(body);
 
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Oops something went wrong"),
+        content: Text('Oops something went wrong'),
       ));
     }
   }

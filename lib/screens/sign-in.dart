@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/common/page-transitions.dart';
 import 'package:flutter_app/config/config.js.dart';
 import 'package:flutter_app/config/palette.dart';
+import 'package:flutter_app/screens/request-blood.dart';
 import 'package:flutter_app/screens/screens.dart';
 import 'package:flutter_app/widgets/CustomTextField.dart';
 import 'package:flutter_app/widgets/button.dart';
@@ -21,7 +22,7 @@ class SignInScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomPadding: true,
       appBar: AppBar(
-        title: Text("SIGN IN"),
+        title: Text('SIGN IN'),
         centerTitle: true,
       ),
       body: GestureDetector(
@@ -73,11 +74,11 @@ class SignInScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 32.0,
                                 ),
-                                Text("WELCOME!", style: Styles.largePrimaryBoldText),
+                                Text('WELCOME!', style: Styles.largePrimaryBoldText),
                                 SizedBox(
                                   height: 16.0,
                                 ),
-                                Text("Sign in to continue", style: Styles.mediumAccentText)
+                                Text('Sign in to continue', style: Styles.mediumAccentText)
                               ],
                             ),
                           ),
@@ -114,7 +115,7 @@ class SignInScreen extends StatelessWidget {
 //                              print("clicked");
                                   },
                                   child: CustomTextField(
-                                    label: "Email",
+                                    label: 'Email',
                                     controller: emailController,
                                   ),
                                 ),
@@ -122,7 +123,7 @@ class SignInScreen extends StatelessWidget {
                                   height: 12.0,
                                 ),
                                 CustomTextField(
-                                  label: "Password",
+                                  label: 'Password',
                                   isPassword: true,
                                   controller: passwordController,
                                 ),
@@ -133,13 +134,10 @@ class SignInScreen extends StatelessWidget {
                                   builder: (BuildContext context) =>
                                       Button(
                                         width: 200.0,
-                                        text: "SIGN IN",
+                                        text: 'SIGN IN',
                                         onPressed: () {
                                           FocusScope.of(context).unfocus();
                                           _textEditingController.clear();
-
-                                          print(emailController.text + " " +
-                                              passwordController.text);
 
                                           _signIn(context);
                                         },
@@ -153,7 +151,7 @@ class SignInScreen extends StatelessWidget {
                                   children: [
                                     Text("Don't have an account?"),
                                     TextButton(
-                                      child: Text("Sign Up"),
+                                      child: Text('Sign Up'),
                                       onPressed: () =>
                                           Navigator.of(context).pushReplacement(
                                               _navigateTo(SignUpScreen())),
@@ -175,31 +173,33 @@ class SignInScreen extends StatelessWidget {
   }
 
   void _signIn(BuildContext context) async {
+//    Navigator.of(context).popUntil((route) => route.isFirst);
+//    await Navigator.of(context).pushReplacement(_navigateTo(RequestBloodScreen()));
     // set up POST request arguments
-    String url = 'http://10.0.2.2/blood-bank/public/api/login';
-    Map<String, String> headers = {"Content-type": "multipart/form-data"};
+    var url = 'http://10.0.2.2/blood-bank/public/api/login';
 
-    var map = new Map<String, dynamic>();
+    var map = <String, dynamic>{};
 
-    map["email"] = emailController.text;
-    map["password"] = passwordController.text;
-    map["confirm_password"] = passwordController.text;
+    map['email'] = emailController.text;
+    map['password'] = passwordController.text;
+    map['confirm_password'] = passwordController.text;
     // make POST request
-    Response response = await post(url, body: map);
+    var response = await post(url, body: map);
     // check the status code for the result
-    int statusCode = response.statusCode;
+    var statusCode = response.statusCode;
     // this API passes back the id of the new item added to the body
-    String body = response.body;
+    var body = response.body;
+
 
     if (statusCode == 200) {
       Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacement(_navigateTo(HomeScreen()));
+      await Navigator.of(context).pushReplacement(_navigateTo(RequestBloodScreen()));
     } else {
       print(statusCode);
       print(body);
 
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Oops something went wrong"),
+        content: Text('Oops something went wrong'),
       ));
     }
   }

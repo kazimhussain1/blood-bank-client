@@ -11,7 +11,7 @@ class GettingStartedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text("Getting Started".toUpperCase(), style: TextStyle(fontSize: 18.0))),
+          title: Text('Getting Started'.toUpperCase(), style: TextStyle(fontSize: 18.0))),
       body: Container(
         padding: EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 0.0),
         height: double.infinity,
@@ -27,12 +27,12 @@ class GettingStartedScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 32.0, bottom: 16.0),
                       child: Text(
-                        "All Lives Matter.",
+                        'All Lives Matter.',
                         style: Styles.largePrimaryText,
                       ),
                     ),
                     Text(
-                      "A gift straight from \nyour heart.",
+                      'A gift straight from \nyour heart.',
                       style: Styles.mediumAccentText,
                       textAlign: TextAlign.center,
                     ),
@@ -40,7 +40,7 @@ class GettingStartedScreen extends StatelessWidget {
                 ),
               ),
               Button(
-                text: "SIGN IN",
+                text: 'SIGN IN',
                 onPressed: () => {
                   Navigator.of(context).push(_navigateTo(SignInScreen())),
                 },
@@ -49,7 +49,7 @@ class GettingStartedScreen extends StatelessWidget {
                 height: 16.0,
               ),
               Button(
-                  text: "SIGN UP",
+                  text: 'SIGN UP',
                   backgroundColor: Palette.colorPrimaryLight,
                   onPressed: () => {
                         Navigator.of(context).push(_navigateTo(SignUpScreen())),
@@ -58,7 +58,7 @@ class GettingStartedScreen extends StatelessWidget {
                 height: 32.0,
               ),
               Text(
-                "version 1.0",
+                'version 1.0',
                 style: TextStyle(fontSize: 14.0, color: Colors.grey),
               )
             ],

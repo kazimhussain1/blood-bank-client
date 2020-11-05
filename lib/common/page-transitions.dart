@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
 class EnterExitRoute extends PageRouteBuilder {
-  final Widget enterPage;
-  final Widget exitPage;
-
   EnterExitRoute({this.exitPage, this.enterPage})
       : super(
           pageBuilder: (
@@ -21,14 +18,14 @@ class EnterExitRoute extends PageRouteBuilder {
               Stack(
             children: <Widget>[
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(0.0, 0.0),
                   end: const Offset(-1.0, 0.0),
                 ).animate(animation),
                 child: exitPage,
               ),
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(1.0, 0.0),
                   end: Offset.zero,
                 ).animate(animation),
@@ -37,13 +34,12 @@ class EnterExitRoute extends PageRouteBuilder {
             ],
           ),
         );
+
+  final Widget enterPage;
+  final Widget exitPage;
 }
 
 class EnterExitRoute2 extends PageRouteBuilder {
-  final Widget enterPage;
-  final Widget exitPage;
-  final Widget returnPage;
-
   EnterExitRoute2({this.exitPage, this.enterPage, this.returnPage})
       : super(
           pageBuilder: (
@@ -61,21 +57,21 @@ class EnterExitRoute2 extends PageRouteBuilder {
               Stack(
             children: <Widget>[
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(0.0, 0.0),
                   end: const Offset(-1.0, 0.0),
                 ).animate(animation),
                 child: exitPage,
               ),
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(1.0, 0.0),
                   end: Offset.zero,
                 ).animate(animation),
                 child: enterPage,
               ),
               SlideTransition(
-                position: new Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(1.0, 0.0),
                   end: Offset.zero,
                 ).animate(animation),
@@ -84,4 +80,8 @@ class EnterExitRoute2 extends PageRouteBuilder {
             ],
           ),
         );
+
+  final Widget enterPage;
+  final Widget exitPage;
+  final Widget returnPage;
 }

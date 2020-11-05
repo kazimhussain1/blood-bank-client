@@ -1,23 +1,23 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../config/palette.dart';
 
 class Button extends StatelessWidget {
+
+  const Button(
+      {Key key,
+        this.width = double.infinity,
+        this.backgroundColor = Palette.colorPrimary,
+        this.foregroundColor = Palette.colorOnPrimary,
+        this.text,
+        this.onPressed})
+      : super(key: key);
+
   final double width;
   final Color backgroundColor;
   final Color foregroundColor;
   final String text;
   final Function onPressed;
 
-  const Button(
-      {Key key,
-      this.width = double.infinity,
-      this.backgroundColor = Palette.colorPrimary,
-      this.foregroundColor = Palette.colorOnPrimary,
-      this.text,
-      this.onPressed})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

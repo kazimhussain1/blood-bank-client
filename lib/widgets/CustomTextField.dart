@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import '../config/palette.dart';
 
 class CustomTextField extends StatefulWidget {
+
+  CustomTextField(
+      {Key key, @required this.label, this.isPassword = false, this.controller})
+      : super(key: key);
+
   final TextEditingController textEditingController = TextEditingController();
 
   final String label;
   final bool isPassword;
   final TextEditingController controller;
 
-  CustomTextField(
-      {Key key, @required this.label, this.isPassword = false, this.controller})
-      : super(key: key);
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -26,7 +28,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       obscureText: widget.isPassword ? !_showPassword : false,
       focusNode: focusNode,
-      decoration: new InputDecoration(
+      decoration: InputDecoration(
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: Icon(
