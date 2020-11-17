@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/config.js.dart';
+import 'package:flutter_app/config/config.dart';
 
 typedef onSelectCallback<T> = Null Function(dynamic latLng);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/screens/home.dart';
+import 'package:flutter_app/config/config.dart';
+import 'package:flutter_app/screens/screens.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class SplashScreen extends StatelessWidget {
     });
     return Scaffold(
       body: Center(
-        child: Text('Splash'),
+        child: Text('Blood Bank', style: Styles.largePrimaryBoldText),
       ),
     );
   }

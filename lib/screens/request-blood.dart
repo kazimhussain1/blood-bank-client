@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/config/config.js.dart';
+import 'package:flutter_app/config/config.dart';
 import 'package:flutter_app/widgets/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
@@ -9,10 +9,12 @@ class RequestBloodScreen extends StatelessWidget {
   int numOfBottles;
   LatLng location;
 
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
+  var requestBloodScreenController;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +77,7 @@ class RequestBloodScreen extends StatelessWidget {
                       height: 12.0,
                     ),
                     MapWidget(
+                      label: 'Choose Location',
                       callback: (latLng) {
                         location = latLng;
                       },

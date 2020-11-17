@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           // This is the theme of your application.
+          scaffoldBackgroundColor: Palette.colorWhite,
           primaryColor: Palette.colorPrimary,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textButtonTheme: TextButtonThemeData(
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
                       MaterialStateProperty.all(Palette.colorPrimary),
                   overlayColor:
                       MaterialStateProperty.all(Palette.colorPrimary.withAlpha(25))))),
-      home: GettingStartedScreen(),
+      home: SplashScreen(),
     );
   }
 }

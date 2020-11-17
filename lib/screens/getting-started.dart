@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/page-transitions.dart';
-import 'package:flutter_app/config/config.js.dart';
+import 'package:flutter_app/config/config.dart';
 import 'package:flutter_app/config/palette.dart';
 import 'package:flutter_app/screens/screens.dart';
 import 'package:flutter_app/widgets/widgets.dart';
