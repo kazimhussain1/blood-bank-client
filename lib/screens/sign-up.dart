@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/common/page-transitions.dart';
@@ -178,13 +180,11 @@ class SignUpScreen extends StatelessWidget {
     // check the status code for the result
     var statusCode = response.statusCode;
     // this API passes back the id of the new item added to the body
-    var body = response.body;
+    var body = jsonDecode(response.body);
 
     if (statusCode == 200) {
       await Navigator.of(context).pushReplacement(_navigateTo(SignInScreen()));
     } else {
-      print(statusCode);
-      print(body);
 
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text('Oops something went wrong'),

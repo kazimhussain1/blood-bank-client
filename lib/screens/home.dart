@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/common/page-transitions.dart';
 import 'package:flutter_app/config/config.dart';
 import 'package:flutter_app/screens/screens.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   static const slides = [
@@ -16,14 +16,14 @@ class HomeScreen extends StatefulWidget {
   ];
 
   static const required = [
-    {'name':'John Doe', 'bloodType':'O +ve'},
-    {'name':'Jane Smith', 'bloodType':'A +ve'},
-    {'name':'Bruce Wayne', 'bloodType':'B +ve'},
-    {'name':'John Doe', 'bloodType':'O -ve'},
-    {'name':'John Doe', 'bloodType':'AB -ve'},
-    {'name':'John Doe', 'bloodType':'B -ve'},
-    {'name':'John Doe', 'bloodType':'O -ve'},
-    {'name':'John Doe', 'bloodType':'A +ve'},
+    {'name': 'John Doe', 'bloodType': 'O +ve'},
+    {'name': 'Jane Smith', 'bloodType': 'A +ve'},
+    {'name': 'Bruce Wayne', 'bloodType': 'B +ve'},
+    {'name': 'John Doe', 'bloodType': 'O -ve'},
+    {'name': 'John Doe', 'bloodType': 'AB -ve'},
+    {'name': 'John Doe', 'bloodType': 'B -ve'},
+    {'name': 'John Doe', 'bloodType': 'O -ve'},
+    {'name': 'John Doe', 'bloodType': 'A +ve'},
   ];
 
   @override
@@ -32,6 +32,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  @override
+
+  void initState() {
+    super.initState();
+    getToken();
+  }
+
+  Future<void> getToken() async {
+    var prefs = await SharedPreferences.getInstance();
+    print(await prefs.getString('token'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,34 +77,55 @@ class _HomeScreenState extends State<HomeScreen> {
                                         borderRadius: BorderRadius.circular(8.0)),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8.0),
-                                      child:  Image.asset(item['image']),
+                                      child: Image.asset(item['image']),
                                     ),
                                   ),
-                                  Text(item['text'], style: Styles.mediumAccentText,)
+                                  Text(
+                                    item['text'],
+                                    style: Styles.mediumAccentText,
+                                  )
                                 ],
                               );
                             },
                           );
                         }).toList(),
                       ),
+                      Text(
+                        'New Requests',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            color: Palette.colorPrimary,
+                            fontWeight: FontWeight.w500),
+                      ),
                       Expanded(
-                        child: ListView.builder(itemCount: HomeScreen.required.length ,itemBuilder: (buildContext, index) => Container(
-                          padding: EdgeInsets.all(16.0),
-                          margin: EdgeInsets.symmetric(horizontal: 16.0, vertical:8.0),
-                          decoration: BoxDecoration(
-                            color: Palette.colorWhite,
-                              boxShadow: Styles.boxShadow,
-                              borderRadius: BorderRadius.circular(8.0)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child:  Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                              Text(HomeScreen.required[index]['name'], style: TextStyle(color: Palette.colorPrimaryLight, fontSize: 18.0, fontWeight: FontWeight.w500)),
-                              Text(HomeScreen.required[index]['bloodType'], style: TextStyle(color: Palette.colorPrimary, fontSize: 18.0, fontWeight: FontWeight.w500))
-                            ],),
-                          ),
-                        )),
+                        child: ListView.builder(
+                            itemCount: HomeScreen.required.length,
+                            itemBuilder: (buildContext, index) => Container(
+                                  padding: EdgeInsets.all(16.0),
+                                  margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                                  decoration: BoxDecoration(
+                                      color: Palette.colorWhite,
+                                      boxShadow: Styles.boxShadow,
+                                      borderRadius: BorderRadius.circular(8.0)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(HomeScreen.required[index]['name'],
+                                            style: TextStyle(
+                                                color: Palette.colorPrimaryLight,
+                                                fontSize: 18.0,
+                                                fontWeight: FontWeight.w500)),
+                                        Text(HomeScreen.required[index]['bloodType'],
+                                            style: TextStyle(
+                                                color: Palette.colorPrimary,
+                                                fontSize: 18.0,
+                                                fontWeight: FontWeight.w500))
+                                      ],
+                                    ),
+                                  ),
+                                )),
                       )
                     ],
                   ),
@@ -112,8 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     if (_scaffoldKey.currentState.isDrawerOpen) {
                       _scaffoldKey.currentState.openEndDrawer();
-                    } else {
-                      _scaffoldKey.currentState.openDrawer();
                     }
 
                     _navigateTo(scaffoldContext, DashboardScreen());
@@ -133,8 +165,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     if (_scaffoldKey.currentState.isDrawerOpen) {
                       _scaffoldKey.currentState.openEndDrawer();
-                    } else {
-                      _scaffoldKey.currentState.openDrawer();
                     }
 
                     _navigateTo(scaffoldContext, DonateBloodScreen());
@@ -154,8 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     if (_scaffoldKey.currentState.isDrawerOpen) {
                       _scaffoldKey.currentState.openEndDrawer();
-                    } else {
-                      _scaffoldKey.currentState.openDrawer();
                     }
 
                     _navigateTo(scaffoldContext, RequestBloodScreen());
@@ -175,8 +203,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: FlatButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacement(EnterExitRoute(exitPage: widget, enterPage: GettingStartedScreen()));
+                      onPressed: () async {
+                        var prefs = await SharedPreferences.getInstance();
+                        await prefs.setString('token', null);
+                        await Navigator.of(context).pushReplacement(EnterExitRoute(
+                            exitPage: widget, enterPage: GettingStartedScreen()));
                       },
                       child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 16.0),

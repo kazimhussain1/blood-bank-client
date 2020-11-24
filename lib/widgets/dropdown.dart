@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config/config.dart';
 
-typedef onSelectCallback<T> = Null Function(dynamic latLng);
+typedef onSelectCallback<T> = Null Function(dynamic value);
 
 class DropDownButton<T> extends StatefulWidget {
    const DropDownButton({Key key, @required this.data, this.label = '', this.onSelect})

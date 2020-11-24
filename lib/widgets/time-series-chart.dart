@@ -3,7 +3,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_app/config/config.dart';
 
 class TimeSeriesRangeAnnotationChart extends StatelessWidget {
-  TimeSeriesRangeAnnotationChart(this.seriesList, {this.animate, this.label});
+  TimeSeriesRangeAnnotationChart(this.seriesList, {this.animate = true, this.label});
 
   final String label;
   final List<charts.Series> seriesList;
@@ -16,7 +16,7 @@ class TimeSeriesRangeAnnotationChart extends StatelessWidget {
       _createSampleData(),
       // Disable animations for image tests.
       label: label,
-      animate: false,
+      animate: true,
     );
   }
 

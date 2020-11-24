@@ -22,7 +22,7 @@ class MapWidgetState extends State<MapWidget> {
 
   Set<Marker> markers = {};
 
-  static final CameraPosition _kGooglePlex = CameraPosition(
+  static final CameraPosition karachi = CameraPosition(
     target: LatLng(24.8607, 67.0011),
     zoom: 14.4746,
   );
@@ -51,7 +51,7 @@ class MapWidgetState extends State<MapWidget> {
               height: 400,
               child: GoogleMap(
                 mapType: MapType.normal,
-                initialCameraPosition: _kGooglePlex,
+                initialCameraPosition: karachi,
                 markers: markers,
                 gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                   Factory<OneSequenceGestureRecognizer>(
@@ -65,7 +65,7 @@ class MapWidgetState extends State<MapWidget> {
                   if (widget.callback != null) {
                     widget.callback(latLng);
                   }
-                  print('${latLng.latitude}, ${latLng.longitude}');
+//                  print('${latLng.latitude}, ${latLng.longitude}');
                   setState(() {
                     markers.clear();
                     markers.add(Marker(
