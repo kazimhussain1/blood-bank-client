@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config/config.dart';
+import 'package:flutter_app/screens/home.dart';
 import 'package:flutter_app/widgets/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
@@ -14,9 +15,12 @@ class RequestBloodScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
+
   var requestBloodScreenController;
   @override
   Widget build(BuildContext context) {
+    nameController.text = HomeScreen.user.name;
+    emailController.text = HomeScreen.user.email;
     return Scaffold(
       appBar: AppBar(
           centerTitle: true, title: Text('REQUEST BLOOD', style: TextStyle(fontSize: 18.0))),
@@ -33,6 +37,7 @@ class RequestBloodScreen extends StatelessWidget {
                     CustomTextField(
                       label: 'Name',
                       controller: nameController,
+                      disabled: true,
                     ),
                     const SizedBox(
                       height: 12.0,
@@ -40,6 +45,7 @@ class RequestBloodScreen extends StatelessWidget {
                     CustomTextField(
                       label: 'Email',
                       controller: emailController,
+                      disabled: true,
                     ),
                     const SizedBox(
                       height: 12.0,
@@ -99,18 +105,7 @@ class RequestBloodScreen extends StatelessWidget {
   }
 
   void _makeRequest(BuildContext scaffoldContext) async {
-    if (nameController.text.isEmpty) {
-      Scaffold.of(scaffoldContext).showSnackBar(SnackBar(
-        content: Text('Name is required'),
-      ));
-      return;
-    }
-    if (emailController.text.isEmpty) {
-      Scaffold.of(scaffoldContext).showSnackBar(SnackBar(
-        content: Text('Email is required'),
-      ));
-      return;
-    }
+
     if (phoneController.text.isEmpty) {
       Scaffold.of(scaffoldContext).showSnackBar(SnackBar(
         content: Text('Contact Number is required'),
@@ -136,18 +131,18 @@ class RequestBloodScreen extends StatelessWidget {
       return;
     }
 
-    var url = 'http://10.0.2.2/blood-bank/public/api/blood/request';
+    var url = '${NetworkUtility.BASE_URL}blood/request';
 
     var map = <String, dynamic>{};
 
-    map['name'] = nameController.text;
-    map['email'] = emailController.text;
+
+    map['user_id'] = HomeScreen.user.id.toString();
     map['contact_number'] = phoneController.text;
     map['blood_type'] = bloodType;
     map['num_of_bottles'] = numOfBottles.toString();
     map['location'] = '${location.latitude}, ${location.longitude}';
     // make POST request
-    var response = await post(url, body: map);
+    var response = await post(url, headers:NetworkUtility.generateHeader(), body: map);
     // check the status code for the result
     var statusCode = response.statusCode;
     // this API passes back the id of the new item added to the body
@@ -158,7 +153,9 @@ class RequestBloodScreen extends StatelessWidget {
         backgroundColor: Colors.green,
         content: Text('Request Successful'),
       ));
+      Future.delayed(Duration(seconds: 2),()=>Navigator.pop(scaffoldContext));
     } else{
+      print(body);
       Scaffold.of(scaffoldContext).showSnackBar(SnackBar(
         content: Text('Oops something went wrong'),
       ));

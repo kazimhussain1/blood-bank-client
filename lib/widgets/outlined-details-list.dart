@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/config/config.dart';
 import 'outlined-container.dart';
@@ -27,7 +28,7 @@ class OutlinedDetailsList extends StatelessWidget {
                         child: Text(e,
                             style: TextStyle(
                                 color: Palette.colorGrey,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500)),
                       ))
                   .toList(),
@@ -48,10 +49,12 @@ class OutlinedDetailsList extends StatelessWidget {
               ...data.values
                   .map<Widget>((e) => Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(e ?? '',
+                        child: AutoSizeText(e ?? '',
+                            maxLines: 1,
                             style: TextStyle(
+
                                 color: Palette.colorPrimary,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500)),
                       ))
                   .toList(),

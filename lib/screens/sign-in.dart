@@ -144,6 +144,7 @@ class SignInScreen extends StatelessWidget {
 //    await Navigator.of(context).pushReplacement(_navigateTo(RequestBloodScreen()));
     // set up POST request arguments
     var url = 'http://10.0.2.2/blood-bank/public/api/login';
+//    var url = 'http://192.168.1.236:80/blood-bank/public/api/login';
 
     var map = <String, dynamic>{};
 
@@ -162,8 +163,9 @@ class SignInScreen extends StatelessWidget {
       Navigator.of(context).popUntil((route) => route.isFirst);
 
       var prefs = await SharedPreferences.getInstance();
-      print(body['token']);
+
       await prefs.setString('token', body['success']['token']);
+      await prefs.setString('user', jsonEncode(body['success']['user']));
 
       await Navigator.of(context).pushReplacement(_navigateTo(HomeScreen()));
     } else {

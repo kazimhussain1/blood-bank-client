@@ -20,6 +20,15 @@ class TimeSeriesRangeAnnotationChart extends StatelessWidget {
     );
   }
 
+  factory TimeSeriesRangeAnnotationChart.withData(String label, List<TimeSeriesModel> data) {
+    return TimeSeriesRangeAnnotationChart(
+      _prepareData(data),
+      // Disable animations for image tests.
+      label: label,
+      animate: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,19 +51,32 @@ class TimeSeriesRangeAnnotationChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
+  static List<charts.Series<TimeSeriesModel, DateTime>> _createSampleData() {
     final data = [
-      TimeSeriesSales(DateTime(2017, 9, 19), 4),
-      TimeSeriesSales(DateTime(2017, 9, 26), 1),
-      TimeSeriesSales(DateTime(2017, 10, 3), 2),
-      TimeSeriesSales(DateTime(2017, 10, 10), 0),
+      TimeSeriesModel(DateTime(2017, 9, 19), 4),
+      TimeSeriesModel(DateTime(2017, 9, 26), 1),
+      TimeSeriesModel(DateTime(2017, 10, 3), 2),
+      TimeSeriesModel(DateTime(2017, 10, 10), 0),
     ];
 
     return [
-      charts.Series<TimeSeriesSales, DateTime>(
+      charts.Series<TimeSeriesModel, DateTime>(
         id: 'Sales',
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        domainFn: (TimeSeriesModel sales, _) => sales.time,
+        measureFn: (TimeSeriesModel sales, _) => sales.value,
+        data: data,
+      )
+    ];
+  }
+
+  static List<charts.Series<TimeSeriesModel, DateTime>> _prepareData(List<TimeSeriesModel> data) {
+
+
+    return [
+      charts.Series<TimeSeriesModel, DateTime>(
+        id: 'Sales',
+        domainFn: (TimeSeriesModel sales, _) => sales.time,
+        measureFn: (TimeSeriesModel sales, _) => sales.value,
         data: data,
       )
     ];
@@ -62,9 +84,9 @@ class TimeSeriesRangeAnnotationChart extends StatelessWidget {
 }
 
 /// Sample time series data type.
-class TimeSeriesSales {
-  TimeSeriesSales(this.time, this.sales);
+class TimeSeriesModel {
+  TimeSeriesModel(this.time, this.value);
 
   final DateTime time;
-  final int sales;
+  final int value;
 }
