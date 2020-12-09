@@ -167,7 +167,7 @@ class SignUpScreen extends StatelessWidget {
 
   void _signUp(BuildContext context) async {
     // set up POST request arguments
-    var url = 'http://10.0.2.2/blood-bank/public/api/register';
+    var url = '${NetworkUtility.BASE_URL}register';
 //    var url = 'http://192.168.1.236:80/blood-bank/public/api/register';
 
     var map = <String, dynamic>{};
